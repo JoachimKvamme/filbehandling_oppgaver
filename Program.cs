@@ -2,8 +2,11 @@
 
 namespace filbehandling_oppgaver;
 
+
+
 class Program
 {
+    static readonly HttpClient client = new HttpClient();
     static void Main(string[] args)
     {
 
@@ -43,6 +46,17 @@ class Program
         // Skriver dette JSON-objektet til en fil som heter cities.json
 
         File.WriteAllText(filnavn, jsonString);
+
+        City? avJSONifisertCity = JsonSerializer.Deserialize<City>(jsonString);
+
+
+        // Sjekker at man ender opp med et City-objekt igjen, etter serialisering og deserialisering.
+        Console.WriteLine(avJSONifisertCity.Name);
+
+        // Det er litt uklart for meg hva andre del av oppgave 2 spør om: JsonSerializer og File-metodene
+        // fungerer allerede til å skrive til, lese fra og opprette JSON-filer. 
+
+        // Oppgave 3
 
 
     }
