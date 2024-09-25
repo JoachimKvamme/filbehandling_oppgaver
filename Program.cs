@@ -1,4 +1,9 @@
-﻿using System.Text.Json;
+﻿using System.Collections.Specialized;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
+using System.Net;
+using System.Text;
+using System.Text.Json;
 
 namespace filbehandling_oppgaver;
 
@@ -7,8 +12,11 @@ namespace filbehandling_oppgaver;
 class Program
 {
     static readonly HttpClient client = new HttpClient();
-    static void Main(string[] args)
+
+    // For å kunne kjøre async-metoder i Main, endret jeg (retur?)-typen til Task. 
+    static async Task Main(string[] args)
     {
+       
 
         // Oppgave 1
         string filsti = "oppgavefil.txt";
@@ -54,10 +62,22 @@ class Program
         Console.WriteLine(avJSONifisertCity.Name);
 
         // Det er litt uklart for meg hva andre del av oppgave 2 spør om: JsonSerializer og File-metodene
-        // fungerer allerede til å skrive til, lese fra og opprette JSON-filer. 
+        // fungerer allerede til å skrive til, lese fra og opprette JSON-filer og -objekter. 
 
         // Oppgave 3
 
+        // url-en går til en liste over verdens valutaer med euro som base.
+        string url = "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.json";
+        string apisti = "valuta.json";
+        
+        // Henter ut data og lagrer i variabelen data.
+        var data = await HentData(url);
+
+        // Sjekker at dette gikk bra
+        Console.WriteLine(data);
+
+        //Skriver dataen man hentet fra api-et, til en egen fil.
+        File.WriteAllText(apisti, data);
 
     }
 
@@ -89,4 +109,21 @@ class Program
         WriteToFile($"{filinnhold}" + melding, filsti);
     }
 
+
+    // Oppgave 3
+
+
+    // Denne metoden tar en url som parameter, og returnerer dataen på det endepunktet som en streng.
+    static async Task<string> HentData(string url) {
+        try 
+        {
+            using HttpResponseMessage response = await client.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+            return responseBody;
+        } catch {
+            Console.WriteLine("Noe gikk galt med å hente ut data");
+            return "Noe gikk galt med å hente ut data";
+        }
+    }
 }
