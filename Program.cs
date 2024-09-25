@@ -61,12 +61,12 @@ class Program
         // Sjekker at man ender opp med et City-objekt igjen, etter serialisering og deserialisering.
         Console.WriteLine(avJSONifisertCity.Name);
 
-        // Det er litt uklart for meg hva andre del av oppgave 2 spør om: JsonSerializer og File-metodene
+        // Det er litt uklart for meg hva andre del av oppgave 2 spør etter: JsonSerializer og File-metodene
         // fungerer allerede til å skrive til, lese fra og opprette JSON-filer og -objekter. 
 
         // Oppgave 3
 
-        // url-en går til en liste over verdens valutaer med euro som base.
+        // url-en går til en liste over verdens valutaer med euro som base-verdi.
         string url = "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.json";
         string apisti = "valuta.json";
         
